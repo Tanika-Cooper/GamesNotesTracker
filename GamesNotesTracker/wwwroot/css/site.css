@@ -69,3 +69,41 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+@media (min-width: 200px) {
+
+    .single-card {
+        padding: 10px;
+        flex: 0 1 calc(100% - 1em);
+        margin-top: 1rem;
+        text-align: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .single-card {
+        flex: 0 1 calc(50% - 1em);
+        margin-top: 1rem;
+        text-align: center;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .single-card {
+        flex: 0 1 calc(25% - 1em);
+        margin-top: 1rem;
+        text-align: center;
+    }
+}

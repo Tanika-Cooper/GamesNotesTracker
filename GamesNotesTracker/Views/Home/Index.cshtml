@@ -1,8 +1,32 @@
-﻿@{
+﻿@model IEnumerable<Category>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="text-center">
+    Game Categories
+</h1>
+
+<div class="card-container" style="justify-content:flex-start">
+    <div id="addCategoryButton" class="single-card card shadow m-2" onclick="AddCategory()">
+        <h3>+</h3>
+    </div>
+    @foreach (var Category in Model)
+    {
+        <div id="category_@Category.CategoryId" class="single-card card shadow m-2" onclick="window.location='/Games/Index?categoryId=' + @Category.CategoryId">
+            <h3>@Category.CategoryName</h3>
+        </div>
+    }
 </div>
+
+@section Scripts{
+    <script>
+        function AddCategory() {
+            
+            alert("Add")
+        }
+    </script>
+}
+
+

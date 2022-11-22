@@ -1,0 +1,123 @@
+﻿@model GamesNotesTracker.Models.Category
+
+@{
+    var gameName = Model.CategoryName;
+
+}
+
+<div class="row d-flex justify-content-center m-3 color-text-primary-3">
+
+    <h1>@gameName</h1>
+</div>
+
+<div class="row">
+    <div class="col-7 p-0" id="NoteDropdown">
+        <select disabled="disabled" class="w-100 h-100 bg-color-background-secondary-0 color-text-primary-3">
+            <option>Please Wait...</option>
+        </select>
+    </div>
+    <div class="col d-flex justify-content-end">
+        <div class="row">
+            <div class="col-2 p-0 d-flex justify-content-between">
+                <button id="btn-delete" class="btn btn-primary mx-2" onclick="OpenDeleteListModal()">Delete</button>
+                <button id="btn-add" class="btn btn-primary mx-2" onclick="OpenAddListModal()">Add</button>
+                <button class="btn btn-primary mx-2" onclick="OpenCreateListModal()">New</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row border border-dark rounded shadow mt-3 bg-color-background-secondary-0" style="min-height:50vh" id="NoteContent">
+    <div id="placeholderText" class="col-10 pt-2 color-text-primary-3">
+        Please Select a note.
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        window.onload = async function () {
+            UpdateDropdown();
+
+            DisableListButtons();
+        }
+
+        async function DisableListButtons() {
+            let addButton = document.getElementById("btn-add");
+            let deleteButton = document.getElementById("btn-delete");
+
+            addButton.setAttribute('disabled', 'disabled')
+            addButton.classList.replace("btn-primary", "btn-secondary")
+            deleteButton.setAttribute('disabled', 'disabled')
+            deleteButton.classList.replace("btn-primary", "btn-secondary")
+        }
+
+        async function EnableListButtons() {
+            let addButton = document.getElementById("btn-add");
+            let deleteButton = document.getElementById("btn-delete");
+
+            addButton.removeAttribute('disabled')
+            addButton.classList.replace("btn-secondary", "btn-primary")
+            deleteButton.removeAttribute('disabled')
+            deleteButton.classList.replace("btn-secondary", "btn-primary")
+        }
+
+        // Updates the contents of the dropdown list
+        async function UpdateDropdown() {
+            var result = await fetch("/Games/ListDropdown", {
+                method: "GET"
+            });
+            var html = await result.text();
+
+            document.getElementById("NoteDropdown").innerHTML = html;
+
+            // Grab a reference to the newly rendered dropdown list
+            var ddl = document.getElementById("noteDDL");
+
+            // Add a listener to the change event
+            ddl.addEventListener("change", HandleDropDownChange);
+        }
+
+        async function UpdateSelectedList() {
+            let optionValue = sessionStorage.getItem("SelectedOptionValue")
+
+            let result = await fetch("/Games/NoteListPartial?noteListId=" + optionValue)
+                .then(response => response.text())
+                .then(responseHtml => {
+                    document.getElementById("NoteContent").innerHTML = responseHtml;
+                });
+
+            if (optionValue != 0) {
+                SetDate(optionValue);
+            }
+        }
+
+        async function HandleDropDownChange(e) {
+            // Retrieves the value that the user has selected from the first selected
+            // Can have dropdowns with multiple values, but with a single select will always be [0]
+            let option = e.target.selectedOptions[0];
+
+            sessionStorage.setItem("SelectedOptionValue", option.value);
+            await UpdateSelectedList();
+
+            // Disables the add and delete buttons when the shopping list is invalid/the placeholder
+            if (option.value == 0) {
+                DisableListButtons();
+            } else {
+                EnableListButtons();
+            }
+        }
+
+        // Retrieves date the list was created and updates the data label
+        async function SetDate(noteListId) {
+            // Ensure dropdown is not on the placeholder first entry
+            if (noteListId != 0) {
+                let result = await fetch("/Games/DateCreated?noteListId=" + noteListId);
+                let html = await result.text();
+
+                let DateLabel = document.getElementById("DateCreatedLabel");
+                DateLabel.innerHTML = ("Date List Created: " + html);
+            }
+        }
+    </script>
+}

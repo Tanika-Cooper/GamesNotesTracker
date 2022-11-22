@@ -12,15 +12,18 @@ namespace GamesNotesTracker.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ProjectContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ProjectContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var categories = _context.Categories.ToList();
+            return View(categories);
         }
 
         public IActionResult Privacy()

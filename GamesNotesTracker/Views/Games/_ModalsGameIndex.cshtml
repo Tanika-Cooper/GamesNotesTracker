@@ -1,0 +1,124 @@
+﻿<!--Create New List Modal-->
+<div class="modal fade modal-starting-position-in" id="AddNewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-gradient-static color-text-primary-3">
+
+            <!--Modal Title-->
+            <div class="modal-header bg-color-background-primary-0 border-color">
+                <h5 class="modal-title" id="ModalTitle">Create a New Shopping List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!--Modal Body-->
+            <div id="ModalBody" class="modal-body">
+                <form id="createListForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <input id="createInput" class="bg-color-background-secondary-0 color-text-primary-3" type="text" name="listName" placeholder="List Name" />
+                        </div>
+                        <div class="m-3">
+                            <input class="btn btn-primary" type="submit" value="create" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Add to List Modal-->
+<div class="modal fade modal-starting-position-in" id="AddItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" data-backdrop="true" role="document">
+        <div class="modal-content bg-gradient-static color-text-primary-3">
+
+            <!--Modal Title-->
+            <div class="modal-header bg-color-background-primary-0 border-color">
+                <h5 class="modal-title" id="ModalTitle">Add to Shopping List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!--Modal Body-->
+            <div id="ModalBody" class="modal-body">
+                <div col>
+                    <div class="row mb-2 d-flex justify-content-center">
+                        <span class="material-symbols-outlined mt-1 mr-2">
+                            search
+                        </span>
+                        <input type="text" class="w-75 form-control" id="searchAdd" />
+                    </div>
+                    <div id="AddListTable">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Modal Footer-->
+            <div class="modal-footer bg-color-background-primary-0 border-color">
+                <div class="col">
+                    <div class="row justify-content-sm-between">
+                        <div class="col-5 d-flex justify-content-start pt-1 ">
+                            <button class="btn btn-primary w-75" onclick="HandleAddListSubmit()">Finish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete from List Modal-->
+<div class="modal fade modal-starting-position-in" id="DeleteItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" data-backdrop="true" role="document">
+        <div class="modal-content bg-gradient-static color-text-primary-3">
+
+            <!--Modal Title-->
+            <div class="modal-header bg-color-background-primary-0 border-color">
+                <h5 class="modal-title" id="ModalTitle">Remove from Shopping List</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!--Modal Body-->
+            <div id="ModalBody" class="modal-body">
+                <div col>
+                    <div class="row mb-2 d-flex justify-content-center">
+                        <span class="material-symbols-outlined mt-1 mr-2">
+                            search
+                        </span>
+                        <input type="text" class="w-75 form-control" id="searchDelete" />
+                    </div>
+                    <div id="DeleteListTable">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Modal Footer-->
+            <div class="modal-footer bg-color-background-primary-0 border-color">
+                <div class="col">
+                    <div class="row justify-content-sm-between">
+                        <div class="col-5 d-flex justify-content-start pt-1 ">
+                            <button class="btn btn-primary w-75" onclick="HandleDeleteListSubmit()">Finish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="spinnerModal" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="lds-dual-ring color-foreground-primary-0" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
